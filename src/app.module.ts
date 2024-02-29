@@ -3,8 +3,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { getPostgresConfig } from './configs/postgres.config';
-import { PromoModule } from './promo/promo.module';
+import { CardModule } from './card/card.module';
 import { ReviewModule } from './review/review.module';
+import { TeamModule } from './team/team.module';
+import { QuestionsModule } from './questions/questions.module';
+import { ValuedClientsModule } from './valued-clients/valued-clients.module';
+import { ConnectFormModule } from './connect-form/connect-form.module';
+import { OfficeLocationModule } from './office-location/office-location.module';
+import { CategoryModule } from './category/category.module';
+import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -16,8 +24,16 @@ import { ReviewModule } from './review/review.module';
       inject: [ConfigService],
       useFactory: getPostgresConfig,
     }),
-    PromoModule,
+    CardModule,
     ReviewModule,
+    TeamModule,
+    QuestionsModule,
+    ValuedClientsModule,
+    ConnectFormModule,
+    OfficeLocationModule,
+    CategoryModule,
+    UserModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
