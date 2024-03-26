@@ -12,8 +12,8 @@ export class CardEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  image: string;
+  @Column('text', { array: true, nullable: true })
+  images: string[];
 
   @Column()
   title: string;
@@ -21,29 +21,25 @@ export class CardEntity {
   @Column()
   description: string;
 
-  @Column()
-  bedroom: string;
+  @Column({ type: 'int' })
+  bedroom: number;
 
-  @Column()
-  bathroom: string;
+  @Column({ type: 'int' })
+  bathroom: number;
 
   @Column()
   location: string;
 
-  @Column()
-  area: string;
+  @Column({ type: 'int' })
+  area: number;
 
-  @Column()
-  price: string;
+  @Column({ type: 'int' })
+  price: number;
 
-  @Column()
-  year: string;
+  @Column({ type: 'int' })
+  year: number;
 
-  // @Column('int', { array: true })
-  // sizes: number[200];
-
-  // @IsString({ each: true })
-  @Column('simple-array')
+  @Column('text', { array: true, nullable: true })
   features: string[];
 
   @ManyToOne(() => CategoryEntity, (category) => category.cards, {

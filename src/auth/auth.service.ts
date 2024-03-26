@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   ForbiddenException,
   Injectable,
@@ -9,6 +10,7 @@ import { ConfigService } from '@nestjs/config';
 import { UserEntity } from 'src/user/entities/user.entity';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { UserService } from 'src/user/user.service';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -20,37 +22,36 @@ export class AuthService {
 
   async validateUser(username: string, password: string): Promise<any> {
     const user = await this.userService.findByUsername(username);
+    const passwordIsMatch = await bcrypt.compareSync(password, user.password);
 
-    if (user && user.password === password) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { password, ...result } = user;
-      return result;
+    if (user && passwordIsMatch) {
+      // const { password, ...result } = user;
+      return user;
     }
 
     return null;
-  }
-
-  async register(dto: CreateUserDto) {
-    const isCreateUser = this.configService.get('CREATE_USER') === 'true';
-    if (!isCreateUser) {
-      throw new BadRequestException('Запрещено создавать новых пользователей');
-    }
-
-    try {
-      const userData = await this.userService.create(dto);
-
-      return {
-        token: this.jwtService.sign({ id: userData.id }),
-      };
-    } catch (err) {
-      // throw new ForbiddenException('Ошибка при регистрации');
-      throw new ForbiddenException(err.message);
-    }
   }
 
   async login(user: UserEntity) {
     return {
       token: this.jwtService.sign({ id: user.id }),
     };
+  }
+
+  async register(dto: CreateUserDto, avatar: Express.Multer.File) {
+    const isCreateUser = this.configService.get('CREATE_USER') === 'true';
+    if (!isCreateUser) {
+      throw new BadRequestException('Запрещено создавать новых пользователей');
+    }
+
+    try {
+      const userData = await this.userService.create(dto, avatar);
+
+      return {
+        token: this.jwtService.sign({ id: userData.id }),
+      };
+    } catch (err) {
+      throw new ForbiddenException(err.message);
+    }
   }
 }

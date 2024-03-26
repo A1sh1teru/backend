@@ -1,14 +1,23 @@
-import { ApiProperty } from '@nestjs/swagger';
+// import { ApiProperty } from '@nestjs/swagger';
+
+import { IsNumber, IsString } from 'class-validator';
 
 export class CreateValuedClientDto {
-  @ApiProperty({
-    type: 'file',
-    properties: {
-      file: {
-        type: 'string',
-        format: 'binary',
-      },
-    },
-  })
-  title: string;
+  @IsString()
+  company: string;
+
+  @IsNumber()
+  year: number;
+
+  @IsString()
+  domain: string;
+
+  @IsString()
+  category: string;
+
+  @IsString()
+  comment: string;
+
+  @IsString()
+  website: string;
 }

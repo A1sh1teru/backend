@@ -17,14 +17,9 @@ import { ApiTags } from '@nestjs/swagger';
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
-  @Post()
+  @Post('create')
   create(@Body() dto: CreateCategoryDto) {
     return this.categoryService.create(dto);
-  }
-
-  @Get()
-  findAll() {
-    return this.categoryService.findAll();
   }
 
   @Get(':id')

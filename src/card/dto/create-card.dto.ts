@@ -1,20 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumberString, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsNumber, IsString } from 'class-validator';
 
 export class CreateCardDto {
-  // @ApiProperty({
-  //   type: 'file',
-  //   properties: {
-  //     file: {
-  //       type: 'string',
-  //       format: 'binary',
-  //     },
-  //   },
-  // })
-  // image: string;
-  // image: Array<Express.Multer.File>;
-  @IsString()
-  image: string;
+  @ApiProperty({
+    type: 'array',
+    items: {
+      type: 'string',
+      format: 'binary',
+    },
+  })
+  images: Array<Express.Multer.File>;
 
   @IsString()
   title: string = 'Название жилья';
@@ -22,27 +18,29 @@ export class CreateCardDto {
   @IsString()
   description: string = 'Описание жилья';
 
-  @IsString()
-  bedroom: string = 'Количество спален';
+  @IsNumber()
+  bedroom: number = 5;
 
-  @IsString()
-  bathroom: string = 'Количество ванных комнат';
+  @IsNumber()
+  bathroom: number = 5;
 
   @IsString()
   location: string = 'Местоположение';
 
-  @IsString()
-  area: string = 'Площадь недвижимости';
+  @IsNumber()
+  area: number = 100;
 
-  @IsString()
-  price: string = 'Стоимость';
+  @IsNumber()
+  price: number = 100000;
 
-  @IsString()
-  year: string = 'Год постройки';
+  @IsNumber()
+  year: number = 2024;
 
-  @IsString()
-  features: string = 'array';
+  @ApiProperty({ type: [String] })
+  features: string;
 
-  @IsNumberString()
+  // @IsNumberString()
+  @Type(() => Number)
+  @IsNumber()
   categoryId: number;
 }

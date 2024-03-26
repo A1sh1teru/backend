@@ -1,14 +1,12 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { IsNumber, IsString } from 'class-validator';
 
 export class CreateQuestionDto {
-  @ApiProperty({
-    type: 'file',
-    properties: {
-      file: {
-        type: 'string',
-        format: 'binary',
-      },
-    },
-  })
+  @IsString()
   title: string;
+
+  @IsString()
+  description: string;
+
+  @IsNumber()
+  userId: number;
 }

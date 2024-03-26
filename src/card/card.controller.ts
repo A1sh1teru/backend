@@ -7,13 +7,12 @@ import {
   Param,
   Delete,
   UseInterceptors,
-  UploadedFile,
   Response,
   Query,
   UploadedFiles,
 } from '@nestjs/common';
-import { ApiTags, ApiConsumes, ApiQuery, ApiBody } from '@nestjs/swagger';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { ApiTags, ApiConsumes, ApiQuery } from '@nestjs/swagger';
+import { FilesInterceptor } from '@nestjs/platform-express';
 
 import { CardService } from './card.service';
 import { fileStorage } from './storage';
@@ -27,41 +26,18 @@ import { DeleteResult } from 'typeorm';
 export class CardController {
   constructor(private readonly cardService: CardService) {}
 
-  @Post()
+  @Post('create')
   @ApiConsumes('multipart/form-data')
-  @UseInterceptors(FileInterceptor('image'))
+  @UseInterceptors(FilesInterceptor('images', 10, { storage: fileStorage }))
   create(
     @Body()
     dto: CreateCardDto,
-    @UploadedFiles() image: Express.Multer.File,
+    @UploadedFiles() images: Array<Express.Multer.File>,
   ): Promise<CardEntity> {
-    return this.cardService.create(dto, image);
+    return this.cardService.create(dto, images);
   }
 
-  // @Post()
-  // @UseInterceptors(FilesInterceptor('image'))
-  // @ApiConsumes('multipart/form-data')
-  // @ApiBody({
-  //   schema: {
-  //     type: 'object',
-  //     properties: {
-  //       files: {
-  //         type: 'array',
-  //         items: {
-  //           type: 'string',
-  //           format: 'binary',
-  //         },
-  //       },
-  //     },
-  //   },
-  // })
-  // async create(@Body() dto: CreateCardDto) {}
-  // uploadFiles(@UploadedFiles() image: Array<Express.Multer.File>,
-  // ): Promise<CardEntity> {
-  //   return this.cardService.create(dto, image);
-  // }
-
-  @Get()
+  @Get('findAllByCategoryId')
   @ApiQuery({ name: 'categoryId', required: false })
   findAll(@Query('categoryId') categoryId: number): Promise<CardEntity[]> {
     if (categoryId) return this.cardService.findByCategoryId(categoryId);
@@ -80,13 +56,13 @@ export class CardController {
 
   @Patch(':id')
   @ApiConsumes('multipart/form-data')
-  @UseInterceptors(FileInterceptor('image', { storage: fileStorage }))
+  @UseInterceptors(FilesInterceptor('images', 10, { storage: fileStorage }))
   update(
     @Param('id') id: string,
     @Body() dto: UpdateCardDto,
-    @UploadedFile() image: Express.Multer.File,
+    @UploadedFiles() images: Array<Express.Multer.File>,
   ): Promise<CardEntity> {
-    return this.cardService.update(+id, dto, image);
+    return this.cardService.update(+id, dto, images);
   }
 
   @Delete(':id')

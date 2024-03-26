@@ -8,7 +8,6 @@ import { ReviewModule } from './review/review.module';
 import { TeamModule } from './team/team.module';
 import { QuestionsModule } from './questions/questions.module';
 import { ValuedClientsModule } from './valued-clients/valued-clients.module';
-import { ConnectFormModule } from './connect-form/connect-form.module';
 import { OfficeLocationModule } from './office-location/office-location.module';
 import { CategoryModule } from './category/category.module';
 import { UserModule } from './user/user.module';
@@ -29,7 +28,6 @@ import { AuthModule } from './auth/auth.module';
     TeamModule,
     QuestionsModule,
     ValuedClientsModule,
-    ConnectFormModule,
     OfficeLocationModule,
     CategoryModule,
     UserModule,

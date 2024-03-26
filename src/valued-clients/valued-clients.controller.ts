@@ -11,20 +11,16 @@ import { ValuedClientsService } from './valued-clients.service';
 import { CreateValuedClientDto } from './dto/create-valued-client.dto';
 import { UpdateValuedClientDto } from './dto/update-valued-client.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { ValuedClientEntity } from './entities/valued-client.entity';
 
 @ApiTags('valued-clients')
 @Controller('valued-clients')
 export class ValuedClientsController {
   constructor(private readonly valuedClientsService: ValuedClientsService) {}
 
-  @Post()
-  create(@Body() createValuedClientDto: CreateValuedClientDto) {
-    return this.valuedClientsService.create(createValuedClientDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.valuedClientsService.findAll();
+  @Post('create')
+  create(@Body() dto: CreateValuedClientDto): Promise<ValuedClientEntity> {
+    return this.valuedClientsService.create(dto);
   }
 
   @Get(':id')
@@ -35,9 +31,9 @@ export class ValuedClientsController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateValuedClientDto: UpdateValuedClientDto,
-  ) {
-    return this.valuedClientsService.update(+id, updateValuedClientDto);
+    @Body() dto: UpdateValuedClientDto,
+  ): Promise<ValuedClientEntity> {
+    return this.valuedClientsService.update(+id, dto);
   }
 
   @Delete(':id')

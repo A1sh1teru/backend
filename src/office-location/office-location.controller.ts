@@ -11,20 +11,16 @@ import { OfficeLocationService } from './office-location.service';
 import { CreateOfficeLocationDto } from './dto/create-office-location.dto';
 import { UpdateOfficeLocationDto } from './dto/update-office-location.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { OfficeLocationEntity } from './entities/office-location.entity';
 
 @ApiTags('office-location')
 @Controller('office-location')
 export class OfficeLocationController {
   constructor(private readonly officeLocationService: OfficeLocationService) {}
 
-  @Post()
-  create(@Body() createOfficeLocationDto: CreateOfficeLocationDto) {
-    return this.officeLocationService.create(createOfficeLocationDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.officeLocationService.findAll();
+  @Post('create')
+  async create(@Body() dto: CreateOfficeLocationDto) {
+    return this.officeLocationService.create(dto);
   }
 
   @Get(':id')
@@ -33,11 +29,11 @@ export class OfficeLocationController {
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
-    @Body() updateOfficeLocationDto: UpdateOfficeLocationDto,
-  ) {
-    return this.officeLocationService.update(+id, updateOfficeLocationDto);
+    @Body() dto: UpdateOfficeLocationDto,
+  ): Promise<OfficeLocationEntity> {
+    return this.officeLocationService.update(+id, dto);
   }
 
   @Delete(':id')

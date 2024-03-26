@@ -16,10 +16,6 @@ export class CategoryService {
     return this.repository.save(dto);
   }
 
-  findAll() {
-    return this.repository.find();
-  }
-
   findOne(id: number) {
     return this.repository.findOneBy({ id });
   }
