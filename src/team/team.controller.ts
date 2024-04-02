@@ -16,6 +16,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { TeamEntity } from './entities/team.entity';
 import { fileStorage } from './storage';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
+import { Roles } from 'src/auth/roles.decorator';
+import { RolesGuard } from 'src/auth/roles.guard';
 
 @ApiTags('team')
 @Controller('team')
@@ -24,6 +26,8 @@ export class TeamController {
 
   @Post('create')
   @ApiBearerAuth()
+  @UseGuards(RolesGuard)
+  @Roles('admin')
   @UseGuards(JwtAuthGuard)
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('avatar', { storage: fileStorage }))
@@ -44,6 +48,8 @@ export class TeamController {
 
   @Delete(':id')
   @ApiBearerAuth()
+  @UseGuards(RolesGuard)
+  @Roles('admin')
   @UseGuards(JwtAuthGuard)
   remove(@Param('id') id: string) {
     return this.teamService.remove(+id);

@@ -3,7 +3,6 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   UseGuards,
@@ -12,9 +11,10 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { ReviewService } from './review.service';
 import { CreateReviewDto } from './dto/create-review.dto';
-import { UpdateReviewDto } from './dto/update-review.dto';
 import { ReviewEntity } from './entities/review.entity';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
+import { Roles } from 'src/auth/roles.decorator';
+import { RolesGuard } from 'src/auth/roles.guard';
 
 @ApiTags('review')
 @Controller('review')
@@ -37,6 +37,8 @@ export class ReviewController {
 
   @Delete(':id')
   @ApiBearerAuth()
+  @UseGuards(RolesGuard)
+  @Roles('admin')
   @UseGuards(JwtAuthGuard)
   remove(@Param('id') id: string) {
     return this.reviewService.delete(+id);

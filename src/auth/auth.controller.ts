@@ -17,7 +17,6 @@ import { LocalAuthGuard } from './guards/local.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { fileStorage } from './storage';
 import { LoginDto } from 'src/user/dto/login.dto';
-// import { JwtAuthGuard } from './guards/jwt.guard';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -40,7 +39,6 @@ export class AuthController {
   // }
 
   @Post('register')
-  // @UseGuards(LocalAuthGuard)
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('avatar', { storage: fileStorage }))
   register(

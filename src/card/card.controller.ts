@@ -22,7 +22,8 @@ import { UpdateCardDto } from './dto/update-card.dto';
 import { CardEntity } from './entities/card.entity';
 import { DeleteResult } from 'typeorm';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
-import { LocalAuthGuard } from 'src/auth/guards/local.guard';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { Roles } from 'src/auth/roles.decorator';
 
 @ApiTags('card')
 @Controller('card')
@@ -31,6 +32,8 @@ export class CardController {
 
   @Post('create')
   @ApiBearerAuth()
+  @UseGuards(RolesGuard)
+  @Roles('admin')
   @UseGuards(JwtAuthGuard)
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FilesInterceptor('images', 10, { storage: fileStorage }))
@@ -67,6 +70,8 @@ export class CardController {
 
   @Patch(':id')
   @ApiBearerAuth()
+  @UseGuards(RolesGuard)
+  @Roles('admin')
   @UseGuards(JwtAuthGuard)
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FilesInterceptor('images', 10, { storage: fileStorage }))
@@ -80,6 +85,8 @@ export class CardController {
 
   @Delete(':id')
   @ApiBearerAuth()
+  @UseGuards(RolesGuard)
+  @Roles('admin')
   @UseGuards(JwtAuthGuard)
   remove(@Param('id') id: string): Promise<DeleteResult> {
     return this.cardService.delete(+id);

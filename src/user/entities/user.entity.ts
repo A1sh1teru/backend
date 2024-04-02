@@ -9,6 +9,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { UserRoles } from '../enums/user.enum';
 
 @Entity('user')
 export class UserEntity {
@@ -33,13 +34,15 @@ export class UserEntity {
   @Column({ nullable: true })
   token: string;
 
+  @Column({ type: 'enum', enum: UserRoles, default: UserRoles.MEMBER })
+  role: UserRoles;
+
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
-  // @ApiHideProperty()
   @OneToMany(() => ReviewEntity, (review) => review.user)
   reviews: ReviewEntity[];
 

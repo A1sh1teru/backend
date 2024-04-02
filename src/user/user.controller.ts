@@ -7,6 +7,7 @@ import {
   Param,
   UploadedFile,
   UseInterceptors,
+  Get,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
 
@@ -16,6 +17,8 @@ import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { DeleteResult } from 'typeorm';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { fileStorage } from './storage';
+import { Roles } from 'src/auth/roles.decorator';
+import { RolesGuard } from 'src/auth/roles.guard';
 
 @Controller('user')
 @ApiTags('user')
@@ -35,18 +38,23 @@ export class UserController {
     return this.userService.create(createUserDto, avatar);
   }
 
-  // @Get('find by Id')
-  // @ApiBearerAuth()
-  // @UseGuards(JwtAuthGuard)
-  // findById(@Param('id') id: number) {
-  //   return this.userService.findById(id);
-  // }
+  @Get('find by Id')
+  @ApiBearerAuth()
+  @UseGuards(RolesGuard)
+  @Roles('admin')
+  @UseGuards(JwtAuthGuard)
+  findById(@Param('id') id: number) {
+    return this.userService.findById(id);
+  }
 
-  // @Get('find by username')
-  // @UseGuards(JwtAuthGuard)
-  // findByUsername(@Param('username') username: string) {
-  //   return this.userService.findByUsername(username);
-  // }
+  @Get('find by username')
+  @ApiBearerAuth()
+  @UseGuards(RolesGuard)
+  @Roles('admin')
+  @UseGuards(JwtAuthGuard)
+  findByUsername(@Param('username') username: string) {
+    return this.userService.findByUsername(username);
+  }
 
   @Delete(':id')
   @ApiBearerAuth()

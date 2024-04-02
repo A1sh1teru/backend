@@ -14,6 +14,8 @@ import { UpdateValuedClientDto } from './dto/update-valued-client.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ValuedClientEntity } from './entities/valued-client.entity';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
+import { Roles } from 'src/auth/roles.decorator';
+import { RolesGuard } from 'src/auth/roles.guard';
 
 @ApiTags('valued-clients')
 @Controller('valued-clients')
@@ -22,6 +24,8 @@ export class ValuedClientsController {
 
   @Post('create')
   @ApiBearerAuth()
+  @UseGuards(RolesGuard)
+  @Roles('admin')
   @UseGuards(JwtAuthGuard)
   create(@Body() dto: CreateValuedClientDto): Promise<ValuedClientEntity> {
     return this.valuedClientsService.create(dto);
@@ -36,6 +40,8 @@ export class ValuedClientsController {
 
   @Patch(':id')
   @ApiBearerAuth()
+  @UseGuards(RolesGuard)
+  @Roles('admin')
   @UseGuards(JwtAuthGuard)
   update(
     @Param('id') id: string,

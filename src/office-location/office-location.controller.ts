@@ -14,6 +14,8 @@ import { UpdateOfficeLocationDto } from './dto/update-office-location.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { OfficeLocationEntity } from './entities/office-location.entity';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { Roles } from 'src/auth/roles.decorator';
 
 @ApiTags('office-location')
 @Controller('office-location')
@@ -22,6 +24,8 @@ export class OfficeLocationController {
 
   @Post('create')
   @ApiBearerAuth()
+  @UseGuards(RolesGuard)
+  @Roles('admin')
   @UseGuards(JwtAuthGuard)
   async create(@Body() dto: CreateOfficeLocationDto) {
     return this.officeLocationService.create(dto);
@@ -36,6 +40,8 @@ export class OfficeLocationController {
 
   @Patch(':id')
   @ApiBearerAuth()
+  @UseGuards(RolesGuard)
+  @Roles('admin')
   @UseGuards(JwtAuthGuard)
   async update(
     @Param('id') id: string,
@@ -46,6 +52,8 @@ export class OfficeLocationController {
 
   @Delete(':id')
   @ApiBearerAuth()
+  @UseGuards(RolesGuard)
+  @Roles('admin')
   @UseGuards(JwtAuthGuard)
   remove(@Param('id') id: string) {
     return this.officeLocationService.remove(+id);
