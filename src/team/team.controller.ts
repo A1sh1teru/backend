@@ -7,13 +7,15 @@ import {
   Delete,
   UseInterceptors,
   UploadedFile,
+  UseGuards,
 } from '@nestjs/common';
 import { TeamService } from './team.service';
 import { CreateTeamDto } from './dto/create-team.dto';
-import { ApiTags, ApiConsumes } from '@nestjs/swagger';
+import { ApiTags, ApiConsumes, ApiBearerAuth } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { TeamEntity } from './entities/team.entity';
 import { fileStorage } from './storage';
+import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 
 @ApiTags('team')
 @Controller('team')
@@ -21,6 +23,8 @@ export class TeamController {
   constructor(private readonly teamService: TeamService) {}
 
   @Post('create')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('avatar', { storage: fileStorage }))
   create(
@@ -32,11 +36,15 @@ export class TeamController {
   }
 
   @Get(':id')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   findOne(@Param('id') id: string) {
     return this.teamService.findOne(+id);
   }
 
   @Delete(':id')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   remove(@Param('id') id: string) {
     return this.teamService.remove(+id);
   }

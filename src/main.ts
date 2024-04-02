@@ -10,7 +10,7 @@ async function bootstrap() {
     new ValidationPipe({
       transform: true,
       transformOptions: {
-        enableImplicitConversion: true, // <- This line here
+        enableImplicitConversion: true,
       },
     }),
   );
@@ -22,10 +22,16 @@ async function bootstrap() {
       `[The source API definition (json)](http://${process.env.SERVER}:${process.env.PORT}/api-json)`,
     )
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('api', app, document, {
+    swaggerOptions: {
+      persistAuthorization: true,
+      tagsSorter: 'alpha',
+    },
+  });
 
   const port = parseInt(process.env.PORT);
   const server = process.env.SERVER;

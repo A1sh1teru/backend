@@ -40,7 +40,6 @@ export class AuthController {
   // }
 
   @Post('register')
-  @ApiBearerAuth()
   // @UseGuards(LocalAuthGuard)
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('avatar', { storage: fileStorage }))
