@@ -20,22 +20,22 @@ export class QuestionsController {
   constructor(private readonly questionsService: QuestionsService) {}
 
   @Post('create')
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  // @ApiBearerAuth()
+  // @UseGuards(JwtAuthGuard)
   async create(@Body() dto: CreateQuestionDto) {
     return this.questionsService.create(dto);
   }
 
   @Get(':id')
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  // @ApiBearerAuth()
+  // @UseGuards(JwtAuthGuard)
   findOne(@Param('id') id: string) {
     return this.questionsService.findOne(+id);
   }
 
   @Delete(':id')
-  @ApiBearerAuth()
-  @UseGuards(RolesGuard)
+  // @ApiBearerAuth()
+  // @UseGuards(RolesGuard)
   @Roles('admin')
   @UseGuards(JwtAuthGuard)
   remove(@Param('id') id: string) {

@@ -32,8 +32,8 @@ export class ValuedClientsController {
   }
 
   @Get(':id')
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  // @ApiBearerAuth()
+  // @UseGuards(JwtAuthGuard)
   findOne(@Param('id') id: string) {
     return this.valuedClientsService.findOne(+id);
   }

@@ -13,6 +13,15 @@ export class ReviewEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ nullable: true })
+  firstName: string;
+
+  @Column({ nullable: true })
+  lastName: string;
+
+  @Column({ nullable: true })
+  avatar: string;
+
   @Column({ type: 'int', nullable: false })
   rating: number;
 

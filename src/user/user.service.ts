@@ -27,7 +27,7 @@ export class UserService {
 
   async create(
     dto: CreateUserDto,
-    avatar: Express.Multer.File,
+    // avatar: Express.Multer.File,
   ): Promise<UserEntity> {
     const existingUser = await this.findByUsername(dto.username);
 
@@ -42,9 +42,9 @@ export class UserService {
     const newUser = new UserEntity();
     newUser.username = dto.username;
     newUser.password = dto.password;
-    newUser.firstName = dto.firstName;
-    newUser.lastName = dto.lastName;
-    newUser.avatar = avatar.filename;
+    // newUser.firstName = dto.firstName;
+    // newUser.lastName = dto.lastName;
+    // newUser.avatar = avatar.filename;
 
     newUser.token = await this.generateToken(newUser);
 

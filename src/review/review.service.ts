@@ -16,8 +16,11 @@ export class ReviewService {
     private userRepository: Repository<UserEntity>,
   ) {}
 
-  async create(dto: CreateReviewDto): Promise<ReviewEntity> {
-    const { userId, comment, rating, title } = dto;
+  async create(
+    dto: CreateReviewDto,
+    avatar: Express.Multer.File,
+  ): Promise<ReviewEntity> {
+    const { userId, comment, rating, title, firstName, lastName } = dto;
     const user = await this.userRepository.findOne({ where: { id: userId } });
     if (!user) {
       throw new Error('User not found');
@@ -27,7 +30,12 @@ export class ReviewService {
       comment,
       rating,
       title,
+      firstName,
+      lastName,
     });
+
+    newReview.avatar = avatar.filename;
+
     return this.reviewRepository.save(newReview);
   }
 

@@ -5,18 +5,16 @@ import {
   UseGuards,
   Delete,
   Param,
-  UploadedFile,
-  UseInterceptors,
+  // UploadedFile,
+  // UseInterceptors,
   Get,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { DeleteResult } from 'typeorm';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { fileStorage } from './storage';
 import { Roles } from 'src/auth/roles.decorator';
 import { RolesGuard } from 'src/auth/roles.guard';
 
@@ -28,14 +26,11 @@ export class UserController {
   @Post('register')
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @ApiConsumes('multipart/form-data')
-  @UseInterceptors(FileInterceptor('avatar', { storage: fileStorage }))
   create(
     @Body()
     createUserDto: CreateUserDto,
-    @UploadedFile() avatar: Express.Multer.File,
   ) {
-    return this.userService.create(createUserDto, avatar);
+    return this.userService.create(createUserDto);
   }
 
   @Get('find by Id')

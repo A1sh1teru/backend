@@ -38,14 +38,14 @@ export class AuthService {
     };
   }
 
-  async register(dto: CreateUserDto, avatar: Express.Multer.File) {
+  async register(dto: CreateUserDto) {
     const isCreateUser = this.configService.get('CREATE_USER') === 'true';
     if (!isCreateUser) {
       throw new BadRequestException('Запрещено создавать новых пользователей');
     }
 
     try {
-      const userData = await this.userService.create(dto, avatar);
+      const userData = await this.userService.create(dto);
 
       return {
         token: this.jwtService.sign({ id: userData.id }),

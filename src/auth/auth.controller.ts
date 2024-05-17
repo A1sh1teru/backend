@@ -39,12 +39,12 @@ export class AuthController {
   // }
 
   @Post('register')
-  @ApiConsumes('multipart/form-data')
-  @UseInterceptors(FileInterceptor('avatar', { storage: fileStorage }))
+  // @ApiConsumes('multipart/form-data')
+  // @UseInterceptors(FileInterceptor('avatar', { storage: fileStorage }))
   register(
     @Body() dto: CreateUserDto,
-    @UploadedFile() avatar: Express.Multer.File,
+    // @UploadedFile() avatar: Express.Multer.File,
   ) {
-    return this.authService.register(dto, avatar);
+    return this.authService.register(dto);
   }
 }

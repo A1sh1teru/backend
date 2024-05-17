@@ -51,7 +51,11 @@ export class CardService {
     return newCard;
   }
 
-  async findAll(): Promise<CardEntity[]> {
+  async findAllByCategory(): Promise<CardEntity[]> {
+    return this.cardRepository.find();
+  }
+
+  async findAll() {
     return this.cardRepository.find();
   }
 

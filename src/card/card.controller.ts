@@ -46,26 +46,33 @@ export class CardController {
   }
 
   @Get('findAllByCategoryId')
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  // @ApiBearerAuth()
+  // @UseGuards(JwtAuthGuard)
   @ApiQuery({ name: 'categoryId', required: false })
-  findAll(@Query('categoryId') categoryId: number): Promise<CardEntity[]> {
+  findAllByCategory(
+    @Query('categoryId') categoryId: number,
+  ): Promise<CardEntity[]> {
     if (categoryId) return this.cardService.findByCategoryId(categoryId);
-    else return this.cardService.findAll();
+    else return this.cardService.findAllByCategory();
   }
 
   @Get('/image/:path')
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  // @ApiBearerAuth()
+  // @UseGuards(JwtAuthGuard)
   download(@Param('path') path: string, @Response() response) {
     return response.sendFile(path, { root: './db_images/card' });
   }
 
   @Get(':id')
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  // @ApiBearerAuth()
+  // @UseGuards(JwtAuthGuard)
   findOne(@Param('id') id: string): Promise<CardEntity> {
     return this.cardService.findOne(+id);
+  }
+
+  @Get()
+  findAll() {
+    return this.cardService.findAll();
   }
 
   @Patch(':id')

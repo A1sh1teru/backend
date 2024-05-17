@@ -30,9 +30,14 @@ export class CategoryController {
     return this.categoryService.create(dto);
   }
 
+  @Get()
+  findAll() {
+    return this.categoryService.findAll();
+  }
+
   @Get(':id')
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  // @ApiBearerAuth()
+  // @UseGuards(JwtAuthGuard)
   findOne(@Param('id') id: string) {
     return this.categoryService.findOne(+id);
   }
