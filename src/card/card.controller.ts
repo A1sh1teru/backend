@@ -36,7 +36,7 @@ export class CardController {
   @Roles('admin')
   @UseGuards(JwtAuthGuard)
   @ApiConsumes('multipart/form-data')
-  @UseInterceptors(FilesInterceptor('images', 10, { storage: fileStorage }))
+  @UseInterceptors(FilesInterceptor('images', 11, { storage: fileStorage }))
   create(
     @Body()
     dto: CreateCardDto,

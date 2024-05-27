@@ -23,7 +23,8 @@ export class CardService {
     images: Array<Express.Multer.File>,
   ): Promise<CardEntity> {
     const card = new CardEntity();
-    card.images = images.map((file) => file.path);
+    card.images = images.map((file) => file.path.replaceAll('\\', '/'));
+
     // card.images = images.filename;
     card.title = dto.title;
     card.description = dto.description;

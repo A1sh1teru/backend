@@ -1,21 +1,10 @@
-import {
-  Controller,
-  Request,
-  Post,
-  UseGuards,
-  Body,
-  UseInterceptors,
-  UploadedFile,
-  // Get,
-} from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { Controller, Request, Post, UseGuards, Body } from '@nestjs/common';
+import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
 
 import { UserEntity } from 'src/user/entities/user.entity';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local.guard';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { fileStorage } from './storage';
 import { LoginDto } from 'src/user/dto/login.dto';
 
 @Controller('auth')
@@ -39,12 +28,7 @@ export class AuthController {
   // }
 
   @Post('register')
-  // @ApiConsumes('multipart/form-data')
-  // @UseInterceptors(FileInterceptor('avatar', { storage: fileStorage }))
-  register(
-    @Body() dto: CreateUserDto,
-    // @UploadedFile() avatar: Express.Multer.File,
-  ) {
+  register(@Body() dto: CreateUserDto) {
     return this.authService.register(dto);
   }
 }

@@ -8,6 +8,7 @@ import {
   // UploadedFile,
   // UseInterceptors,
   Get,
+  Req,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
@@ -33,7 +34,12 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
-  @Get('find by Id')
+  @Get()
+  findAll() {
+    return this.userService.findAll();
+  }
+
+  @Get('findById')
   @ApiBearerAuth()
   @UseGuards(RolesGuard)
   @Roles('admin')
@@ -42,7 +48,7 @@ export class UserController {
     return this.userService.findById(id);
   }
 
-  @Get('find by username')
+  @Get('findByUsername')
   @ApiBearerAuth()
   @UseGuards(RolesGuard)
   @Roles('admin')

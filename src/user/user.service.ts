@@ -62,4 +62,8 @@ export class UserService {
   async delete(id: number): Promise<DeleteResult> {
     return this.repository.delete(id);
   }
+
+  async findAll() {
+    return this.repository.find();
+  }
 }
