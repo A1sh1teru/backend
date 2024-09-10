@@ -52,6 +52,8 @@ export class ValuedClientsController {
 
   @Delete(':id')
   @ApiBearerAuth()
+  @UseGuards(RolesGuard)
+  @Roles('admin')
   @UseGuards(JwtAuthGuard)
   remove(@Param('id') id: string) {
     return this.valuedClientsService.remove(+id);

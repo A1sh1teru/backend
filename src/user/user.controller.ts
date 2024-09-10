@@ -59,6 +59,8 @@ export class UserController {
 
   @Delete(':id')
   @ApiBearerAuth()
+  @UseGuards(RolesGuard)
+  @Roles('admin')
   @UseGuards(JwtAuthGuard)
   remove(@Param('id') id: string): Promise<DeleteResult> {
     return this.userService.delete(+id);

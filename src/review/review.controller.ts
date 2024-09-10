@@ -26,8 +26,8 @@ export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
 
   @Post('create')
-  // @ApiBearerAuth()
-  // @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('avatar', { storage: fileStorage }))
   create(
@@ -45,10 +45,10 @@ export class ReviewController {
   }
 
   @Delete(':id')
-  // @ApiBearerAuth()
-  // @UseGuards(RolesGuard)
-  // @Roles('admin')
-  // @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @UseGuards(RolesGuard)
+  @Roles('admin')
+  @UseGuards(JwtAuthGuard)
   remove(@Param('id') id: string) {
     return this.reviewService.delete(+id);
   }
