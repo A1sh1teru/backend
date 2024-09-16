@@ -1,11 +1,21 @@
-FROM node:18-alpine
- 
-WORKDIR /user/src/app
- 
-COPY ./dist ./dist
-COPY package.json .
-COPY package-lock.json .
+FROM node:18-alpine AS build
 
-RUN npm ci --omit=dev
- 
-CMD [ "node", "dist/main.js" ]
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+RUN npm run build
+
+FROM node:18-alpine AS production
+
+WORKDIR /app
+
+COPY --from=build /app ./
+
+EXPOSE ${PORT}
+
+CMD ["npm", "run", "start:prod"]
