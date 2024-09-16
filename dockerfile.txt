@@ -19,3 +19,4 @@ COPY --from=build /app ./
 EXPOSE ${PORT}
 
 CMD ["npm", "run", "start:prod"]
+
